@@ -11,6 +11,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	anypb "google.golang.org/protobuf/types/known/anypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -19,18 +20,18 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Server_Call_FullMethodName      = "/server.Server/Call"
-	Server_Subscribe_FullMethodName = "/server.Server/Subscribe"
-	Server_Heartbeat_FullMethodName = "/server.Server/Heartbeat"
+	Server_Call_FullMethodName        = "/server.Server/Call"
+	Server_Subscribe_FullMethodName   = "/server.Server/Subscribe"
+	Server_UnSubscribe_FullMethodName = "/server.Server/UnSubscribe"
 )
 
 // ServerClient is the client API for Server service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ServerClient interface {
-	Call(ctx context.Context, in *CallRequest, opts ...grpc.CallOption) (*CallResponse, error)
-	Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*SubscribeResponse, error)
-	Heartbeat(ctx context.Context, in *HeartbeatMessage, opts ...grpc.CallOption) (*HeartbeatMessage, error)
+	Call(ctx context.Context, in *Request, opts ...grpc.CallOption) (*CallResponse, error)
+	Subscribe(ctx context.Context, in *Request, opts ...grpc.CallOption) (*SubscribeResponse, error)
+	UnSubscribe(ctx context.Context, in *UnsubscribeRequest, opts ...grpc.CallOption) (*anypb.Any, error)
 }
 
 type serverClient struct {
@@ -41,7 +42,7 @@ func NewServerClient(cc grpc.ClientConnInterface) ServerClient {
 	return &serverClient{cc}
 }
 
-func (c *serverClient) Call(ctx context.Context, in *CallRequest, opts ...grpc.CallOption) (*CallResponse, error) {
+func (c *serverClient) Call(ctx context.Context, in *Request, opts ...grpc.CallOption) (*CallResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CallResponse)
 	err := c.cc.Invoke(ctx, Server_Call_FullMethodName, in, out, cOpts...)
@@ -51,7 +52,7 @@ func (c *serverClient) Call(ctx context.Context, in *CallRequest, opts ...grpc.C
 	return out, nil
 }
 
-func (c *serverClient) Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*SubscribeResponse, error) {
+func (c *serverClient) Subscribe(ctx context.Context, in *Request, opts ...grpc.CallOption) (*SubscribeResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SubscribeResponse)
 	err := c.cc.Invoke(ctx, Server_Subscribe_FullMethodName, in, out, cOpts...)
@@ -61,10 +62,10 @@ func (c *serverClient) Subscribe(ctx context.Context, in *SubscribeRequest, opts
 	return out, nil
 }
 
-func (c *serverClient) Heartbeat(ctx context.Context, in *HeartbeatMessage, opts ...grpc.CallOption) (*HeartbeatMessage, error) {
+func (c *serverClient) UnSubscribe(ctx context.Context, in *UnsubscribeRequest, opts ...grpc.CallOption) (*anypb.Any, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(HeartbeatMessage)
-	err := c.cc.Invoke(ctx, Server_Heartbeat_FullMethodName, in, out, cOpts...)
+	out := new(anypb.Any)
+	err := c.cc.Invoke(ctx, Server_UnSubscribe_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -75,9 +76,9 @@ func (c *serverClient) Heartbeat(ctx context.Context, in *HeartbeatMessage, opts
 // All implementations must embed UnimplementedServerServer
 // for forward compatibility.
 type ServerServer interface {
-	Call(context.Context, *CallRequest) (*CallResponse, error)
-	Subscribe(context.Context, *SubscribeRequest) (*SubscribeResponse, error)
-	Heartbeat(context.Context, *HeartbeatMessage) (*HeartbeatMessage, error)
+	Call(context.Context, *Request) (*CallResponse, error)
+	Subscribe(context.Context, *Request) (*SubscribeResponse, error)
+	UnSubscribe(context.Context, *UnsubscribeRequest) (*anypb.Any, error)
 	mustEmbedUnimplementedServerServer()
 }
 
@@ -88,14 +89,14 @@ type ServerServer interface {
 // pointer dereference when methods are called.
 type UnimplementedServerServer struct{}
 
-func (UnimplementedServerServer) Call(context.Context, *CallRequest) (*CallResponse, error) {
+func (UnimplementedServerServer) Call(context.Context, *Request) (*CallResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Call not implemented")
 }
-func (UnimplementedServerServer) Subscribe(context.Context, *SubscribeRequest) (*SubscribeResponse, error) {
+func (UnimplementedServerServer) Subscribe(context.Context, *Request) (*SubscribeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Subscribe not implemented")
 }
-func (UnimplementedServerServer) Heartbeat(context.Context, *HeartbeatMessage) (*HeartbeatMessage, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Heartbeat not implemented")
+func (UnimplementedServerServer) UnSubscribe(context.Context, *UnsubscribeRequest) (*anypb.Any, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UnSubscribe not implemented")
 }
 func (UnimplementedServerServer) mustEmbedUnimplementedServerServer() {}
 func (UnimplementedServerServer) testEmbeddedByValue()                {}
@@ -119,7 +120,7 @@ func RegisterServerServer(s grpc.ServiceRegistrar, srv ServerServer) {
 }
 
 func _Server_Call_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CallRequest)
+	in := new(Request)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -131,13 +132,13 @@ func _Server_Call_Handler(srv interface{}, ctx context.Context, dec func(interfa
 		FullMethod: Server_Call_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ServerServer).Call(ctx, req.(*CallRequest))
+		return srv.(ServerServer).Call(ctx, req.(*Request))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Server_Subscribe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SubscribeRequest)
+	in := new(Request)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -149,25 +150,25 @@ func _Server_Subscribe_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: Server_Subscribe_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ServerServer).Subscribe(ctx, req.(*SubscribeRequest))
+		return srv.(ServerServer).Subscribe(ctx, req.(*Request))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Server_Heartbeat_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(HeartbeatMessage)
+func _Server_UnSubscribe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UnsubscribeRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ServerServer).Heartbeat(ctx, in)
+		return srv.(ServerServer).UnSubscribe(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Server_Heartbeat_FullMethodName,
+		FullMethod: Server_UnSubscribe_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ServerServer).Heartbeat(ctx, req.(*HeartbeatMessage))
+		return srv.(ServerServer).UnSubscribe(ctx, req.(*UnsubscribeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -188,8 +189,8 @@ var Server_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Server_Subscribe_Handler,
 		},
 		{
-			MethodName: "Heartbeat",
-			Handler:    _Server_Heartbeat_Handler,
+			MethodName: "UnSubscribe",
+			Handler:    _Server_UnSubscribe_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
