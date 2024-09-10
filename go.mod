@@ -1,4 +1,4 @@
-module gitlab.com/standart-dev/common-go
+module github.com/budka-tech/snip-common-go
 
 go 1.23.0
 
