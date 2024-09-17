@@ -19,139 +19,139 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Sms_GetSms_FullMethodName       = "/gsm.Sms/GetSms"
-	Sms_GetFlashCall_FullMethodName = "/gsm.Sms/GetFlashCall"
+	Gsm_GetSms_FullMethodName       = "/gsm.Gsm/GetSms"
+	Gsm_GetFlashCall_FullMethodName = "/gsm.Gsm/GetFlashCall"
 )
 
-// SmsClient is the client API for Sms service.
+// GsmClient is the client API for Gsm service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type SmsClient interface {
+type GsmClient interface {
 	GetSms(ctx context.Context, in *GetSmsRequest, opts ...grpc.CallOption) (*GetSmsResponse, error)
 	GetFlashCall(ctx context.Context, in *GetFlashCallRequest, opts ...grpc.CallOption) (*GetFlashCallResponse, error)
 }
 
-type smsClient struct {
+type gsmClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewSmsClient(cc grpc.ClientConnInterface) SmsClient {
-	return &smsClient{cc}
+func NewGsmClient(cc grpc.ClientConnInterface) GsmClient {
+	return &gsmClient{cc}
 }
 
-func (c *smsClient) GetSms(ctx context.Context, in *GetSmsRequest, opts ...grpc.CallOption) (*GetSmsResponse, error) {
+func (c *gsmClient) GetSms(ctx context.Context, in *GetSmsRequest, opts ...grpc.CallOption) (*GetSmsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetSmsResponse)
-	err := c.cc.Invoke(ctx, Sms_GetSms_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, Gsm_GetSms_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *smsClient) GetFlashCall(ctx context.Context, in *GetFlashCallRequest, opts ...grpc.CallOption) (*GetFlashCallResponse, error) {
+func (c *gsmClient) GetFlashCall(ctx context.Context, in *GetFlashCallRequest, opts ...grpc.CallOption) (*GetFlashCallResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetFlashCallResponse)
-	err := c.cc.Invoke(ctx, Sms_GetFlashCall_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, Gsm_GetFlashCall_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// SmsServer is the server API for Sms service.
-// All implementations must embed UnimplementedSmsServer
+// GsmServer is the server API for Gsm service.
+// All implementations must embed UnimplementedGsmServer
 // for forward compatibility.
-type SmsServer interface {
+type GsmServer interface {
 	GetSms(context.Context, *GetSmsRequest) (*GetSmsResponse, error)
 	GetFlashCall(context.Context, *GetFlashCallRequest) (*GetFlashCallResponse, error)
-	mustEmbedUnimplementedSmsServer()
+	mustEmbedUnimplementedGsmServer()
 }
 
-// UnimplementedSmsServer must be embedded to have
+// UnimplementedGsmServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedSmsServer struct{}
+type UnimplementedGsmServer struct{}
 
-func (UnimplementedSmsServer) GetSms(context.Context, *GetSmsRequest) (*GetSmsResponse, error) {
+func (UnimplementedGsmServer) GetSms(context.Context, *GetSmsRequest) (*GetSmsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSms not implemented")
 }
-func (UnimplementedSmsServer) GetFlashCall(context.Context, *GetFlashCallRequest) (*GetFlashCallResponse, error) {
+func (UnimplementedGsmServer) GetFlashCall(context.Context, *GetFlashCallRequest) (*GetFlashCallResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetFlashCall not implemented")
 }
-func (UnimplementedSmsServer) mustEmbedUnimplementedSmsServer() {}
-func (UnimplementedSmsServer) testEmbeddedByValue()             {}
+func (UnimplementedGsmServer) mustEmbedUnimplementedGsmServer() {}
+func (UnimplementedGsmServer) testEmbeddedByValue()             {}
 
-// UnsafeSmsServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to SmsServer will
+// UnsafeGsmServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to GsmServer will
 // result in compilation errors.
-type UnsafeSmsServer interface {
-	mustEmbedUnimplementedSmsServer()
+type UnsafeGsmServer interface {
+	mustEmbedUnimplementedGsmServer()
 }
 
-func RegisterSmsServer(s grpc.ServiceRegistrar, srv SmsServer) {
-	// If the following call pancis, it indicates UnimplementedSmsServer was
+func RegisterGsmServer(s grpc.ServiceRegistrar, srv GsmServer) {
+	// If the following call pancis, it indicates UnimplementedGsmServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&Sms_ServiceDesc, srv)
+	s.RegisterService(&Gsm_ServiceDesc, srv)
 }
 
-func _Sms_GetSms_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Gsm_GetSms_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetSmsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SmsServer).GetSms(ctx, in)
+		return srv.(GsmServer).GetSms(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Sms_GetSms_FullMethodName,
+		FullMethod: Gsm_GetSms_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SmsServer).GetSms(ctx, req.(*GetSmsRequest))
+		return srv.(GsmServer).GetSms(ctx, req.(*GetSmsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Sms_GetFlashCall_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Gsm_GetFlashCall_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetFlashCallRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SmsServer).GetFlashCall(ctx, in)
+		return srv.(GsmServer).GetFlashCall(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Sms_GetFlashCall_FullMethodName,
+		FullMethod: Gsm_GetFlashCall_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SmsServer).GetFlashCall(ctx, req.(*GetFlashCallRequest))
+		return srv.(GsmServer).GetFlashCall(ctx, req.(*GetFlashCallRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Sms_ServiceDesc is the grpc.ServiceDesc for Sms service.
+// Gsm_ServiceDesc is the grpc.ServiceDesc for Gsm service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Sms_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "gsm.Sms",
-	HandlerType: (*SmsServer)(nil),
+var Gsm_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "gsm.Gsm",
+	HandlerType: (*GsmServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "GetSms",
-			Handler:    _Sms_GetSms_Handler,
+			Handler:    _Gsm_GetSms_Handler,
 		},
 		{
 			MethodName: "GetFlashCall",
-			Handler:    _Sms_GetFlashCall_Handler,
+			Handler:    _Gsm_GetFlashCall_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
