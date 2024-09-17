@@ -6,6 +6,7 @@ const (
   Success Status = iota // Успешно
   Any  // Любая ошибка
   NotFound  // Не найдено
+  AlreadyAvailable  // Уже имеется
   PermissionDenied  // Недостаточно прав
   TooFrequentRequests  // Слишком частые запросы
   InternalError  // Внутренняя ошибка сервера
@@ -24,6 +25,7 @@ var m = map[Status]string{
   Success:"Успешно",
   Any:"Любая ошибка",
   NotFound:"Не найдено",
+  AlreadyAvailable:"Уже имеется",
   PermissionDenied:"Недостаточно прав",
   TooFrequentRequests:"Слишком частые запросы",
   InternalError:"Внутренняя ошибка сервера",
