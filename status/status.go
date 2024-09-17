@@ -39,6 +39,6 @@ var m = map[Status]string{
   OperationFailed:"Операция не удалась",
 }
 
-func readable(s Status) string {
+func Readable(s Status) string {
   return m[s]
 }
