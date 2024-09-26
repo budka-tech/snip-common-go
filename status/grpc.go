@@ -6,7 +6,7 @@ import (
 )
 
 var mGrpc = map[Status]codes.Code{
-	Success:             codes.OK,
+	OK:                  codes.OK,
 	Any:                 codes.Unknown,
 	NotFound:            codes.NotFound,
 	AlreadyExists:       codes.AlreadyExists,
