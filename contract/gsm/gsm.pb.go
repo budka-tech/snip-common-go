@@ -20,17 +20,17 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type GetSmsRequest struct {
+type CommonResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserId int32  `protobuf:"varint,1,opt,name=userId,proto3" json:"userId,omitempty"`
-	Phone  string `protobuf:"bytes,2,opt,name=phone,proto3" json:"phone,omitempty"`
+	Status bool   `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
+	Code   uint32 `protobuf:"varint,2,opt,name=code,proto3" json:"code,omitempty"`
 }
 
-func (x *GetSmsRequest) Reset() {
-	*x = GetSmsRequest{}
+func (x *CommonResponse) Reset() {
+	*x = CommonResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_gsm_gsm_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -38,13 +38,13 @@ func (x *GetSmsRequest) Reset() {
 	}
 }
 
-func (x *GetSmsRequest) String() string {
+func (x *CommonResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetSmsRequest) ProtoMessage() {}
+func (*CommonResponse) ProtoMessage() {}
 
-func (x *GetSmsRequest) ProtoReflect() protoreflect.Message {
+func (x *CommonResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_gsm_gsm_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -56,35 +56,36 @@ func (x *GetSmsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetSmsRequest.ProtoReflect.Descriptor instead.
-func (*GetSmsRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use CommonResponse.ProtoReflect.Descriptor instead.
+func (*CommonResponse) Descriptor() ([]byte, []int) {
 	return file_gsm_gsm_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *GetSmsRequest) GetUserId() int32 {
+func (x *CommonResponse) GetStatus() bool {
 	if x != nil {
-		return x.UserId
+		return x.Status
+	}
+	return false
+}
+
+func (x *CommonResponse) GetCode() uint32 {
+	if x != nil {
+		return x.Code
 	}
 	return 0
 }
 
-func (x *GetSmsRequest) GetPhone() string {
-	if x != nil {
-		return x.Phone
-	}
-	return ""
-}
-
-type GetSmsResponse struct {
+type SendSmsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Sms string `protobuf:"bytes,1,opt,name=sms,proto3" json:"sms,omitempty"`
+	Message string `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	Phone   string `protobuf:"bytes,2,opt,name=phone,proto3" json:"phone,omitempty"`
 }
 
-func (x *GetSmsResponse) Reset() {
-	*x = GetSmsResponse{}
+func (x *SendSmsRequest) Reset() {
+	*x = SendSmsRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_gsm_gsm_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -92,13 +93,13 @@ func (x *GetSmsResponse) Reset() {
 	}
 }
 
-func (x *GetSmsResponse) String() string {
+func (x *SendSmsRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetSmsResponse) ProtoMessage() {}
+func (*SendSmsRequest) ProtoMessage() {}
 
-func (x *GetSmsResponse) ProtoReflect() protoreflect.Message {
+func (x *SendSmsRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_gsm_gsm_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -110,19 +111,26 @@ func (x *GetSmsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetSmsResponse.ProtoReflect.Descriptor instead.
-func (*GetSmsResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use SendSmsRequest.ProtoReflect.Descriptor instead.
+func (*SendSmsRequest) Descriptor() ([]byte, []int) {
 	return file_gsm_gsm_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *GetSmsResponse) GetSms() string {
+func (x *SendSmsRequest) GetMessage() string {
 	if x != nil {
-		return x.Sms
+		return x.Message
 	}
 	return ""
 }
 
-type GetFlashCallRequest struct {
+func (x *SendSmsRequest) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+type FlashCallRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -130,8 +138,8 @@ type GetFlashCallRequest struct {
 	Phone string `protobuf:"bytes,1,opt,name=phone,proto3" json:"phone,omitempty"`
 }
 
-func (x *GetFlashCallRequest) Reset() {
-	*x = GetFlashCallRequest{}
+func (x *FlashCallRequest) Reset() {
+	*x = FlashCallRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_gsm_gsm_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -139,13 +147,13 @@ func (x *GetFlashCallRequest) Reset() {
 	}
 }
 
-func (x *GetFlashCallRequest) String() string {
+func (x *FlashCallRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetFlashCallRequest) ProtoMessage() {}
+func (*FlashCallRequest) ProtoMessage() {}
 
-func (x *GetFlashCallRequest) ProtoReflect() protoreflect.Message {
+func (x *FlashCallRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_gsm_gsm_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -157,89 +165,40 @@ func (x *GetFlashCallRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetFlashCallRequest.ProtoReflect.Descriptor instead.
-func (*GetFlashCallRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use FlashCallRequest.ProtoReflect.Descriptor instead.
+func (*FlashCallRequest) Descriptor() ([]byte, []int) {
 	return file_gsm_gsm_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *GetFlashCallRequest) GetPhone() string {
+func (x *FlashCallRequest) GetPhone() string {
 	if x != nil {
 		return x.Phone
 	}
 	return ""
 }
 
-type GetFlashCallResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Status bool `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
-}
-
-func (x *GetFlashCallResponse) Reset() {
-	*x = GetFlashCallResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_gsm_gsm_proto_msgTypes[3]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *GetFlashCallResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetFlashCallResponse) ProtoMessage() {}
-
-func (x *GetFlashCallResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_gsm_gsm_proto_msgTypes[3]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetFlashCallResponse.ProtoReflect.Descriptor instead.
-func (*GetFlashCallResponse) Descriptor() ([]byte, []int) {
-	return file_gsm_gsm_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *GetFlashCallResponse) GetStatus() bool {
-	if x != nil {
-		return x.Status
-	}
-	return false
-}
-
 var File_gsm_gsm_proto protoreflect.FileDescriptor
 
 var file_gsm_gsm_proto_rawDesc = []byte{
 	0x0a, 0x0d, 0x67, 0x73, 0x6d, 0x2f, 0x67, 0x73, 0x6d, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12,
-	0x03, 0x67, 0x73, 0x6d, 0x22, 0x3d, 0x0a, 0x0d, 0x47, 0x65, 0x74, 0x53, 0x6d, 0x73, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x14, 0x0a,
-	0x05, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x70, 0x68,
-	0x6f, 0x6e, 0x65, 0x22, 0x22, 0x0a, 0x0e, 0x47, 0x65, 0x74, 0x53, 0x6d, 0x73, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x10, 0x0a, 0x03, 0x73, 0x6d, 0x73, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x03, 0x73, 0x6d, 0x73, 0x22, 0x2b, 0x0a, 0x13, 0x47, 0x65, 0x74, 0x46, 0x6c,
-	0x61, 0x73, 0x68, 0x43, 0x61, 0x6c, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x14,
-	0x0a, 0x05, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x70,
-	0x68, 0x6f, 0x6e, 0x65, 0x22, 0x2e, 0x0a, 0x14, 0x47, 0x65, 0x74, 0x46, 0x6c, 0x61, 0x73, 0x68,
-	0x43, 0x61, 0x6c, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06,
-	0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06, 0x73, 0x74,
-	0x61, 0x74, 0x75, 0x73, 0x32, 0x7d, 0x0a, 0x03, 0x47, 0x73, 0x6d, 0x12, 0x31, 0x0a, 0x06, 0x47,
-	0x65, 0x74, 0x53, 0x6d, 0x73, 0x12, 0x12, 0x2e, 0x67, 0x73, 0x6d, 0x2e, 0x47, 0x65, 0x74, 0x53,
-	0x6d, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x13, 0x2e, 0x67, 0x73, 0x6d, 0x2e,
-	0x47, 0x65, 0x74, 0x53, 0x6d, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x43,
-	0x0a, 0x0c, 0x47, 0x65, 0x74, 0x46, 0x6c, 0x61, 0x73, 0x68, 0x43, 0x61, 0x6c, 0x6c, 0x12, 0x18,
-	0x2e, 0x67, 0x73, 0x6d, 0x2e, 0x47, 0x65, 0x74, 0x46, 0x6c, 0x61, 0x73, 0x68, 0x43, 0x61, 0x6c,
-	0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x19, 0x2e, 0x67, 0x73, 0x6d, 0x2e, 0x47,
-	0x65, 0x74, 0x46, 0x6c, 0x61, 0x73, 0x68, 0x43, 0x61, 0x6c, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x03, 0x67, 0x73, 0x6d, 0x22, 0x3c, 0x0a, 0x0e, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x12,
+	0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x04, 0x63, 0x6f,
+	0x64, 0x65, 0x22, 0x40, 0x0a, 0x0e, 0x53, 0x65, 0x6e, 0x64, 0x53, 0x6d, 0x73, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x14,
+	0x0a, 0x05, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x70,
+	0x68, 0x6f, 0x6e, 0x65, 0x22, 0x28, 0x0a, 0x10, 0x46, 0x6c, 0x61, 0x73, 0x68, 0x43, 0x61, 0x6c,
+	0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x70, 0x68, 0x6f, 0x6e,
+	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x32, 0x73,
+	0x0a, 0x03, 0x47, 0x73, 0x6d, 0x12, 0x33, 0x0a, 0x07, 0x53, 0x65, 0x6e, 0x64, 0x53, 0x6d, 0x73,
+	0x12, 0x13, 0x2e, 0x67, 0x73, 0x6d, 0x2e, 0x53, 0x65, 0x6e, 0x64, 0x53, 0x6d, 0x73, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x13, 0x2e, 0x67, 0x73, 0x6d, 0x2e, 0x43, 0x6f, 0x6d, 0x6d,
+	0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x37, 0x0a, 0x09, 0x46, 0x6c,
+	0x61, 0x73, 0x68, 0x43, 0x61, 0x6c, 0x6c, 0x12, 0x15, 0x2e, 0x67, 0x73, 0x6d, 0x2e, 0x46, 0x6c,
+	0x61, 0x73, 0x68, 0x43, 0x61, 0x6c, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x13,
+	0x2e, 0x67, 0x73, 0x6d, 0x2e, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f,
 	0x6e, 0x73, 0x65, 0x42, 0x10, 0x5a, 0x0e, 0x73, 0x6e, 0x69, 0x70, 0x2e, 0x67, 0x73, 0x6d, 0x3b,
 	0x67, 0x73, 0x6d, 0x76, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
@@ -256,18 +215,17 @@ func file_gsm_gsm_proto_rawDescGZIP() []byte {
 	return file_gsm_gsm_proto_rawDescData
 }
 
-var file_gsm_gsm_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_gsm_gsm_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_gsm_gsm_proto_goTypes = []any{
-	(*GetSmsRequest)(nil),        // 0: gsm.GetSmsRequest
-	(*GetSmsResponse)(nil),       // 1: gsm.GetSmsResponse
-	(*GetFlashCallRequest)(nil),  // 2: gsm.GetFlashCallRequest
-	(*GetFlashCallResponse)(nil), // 3: gsm.GetFlashCallResponse
+	(*CommonResponse)(nil),   // 0: gsm.CommonResponse
+	(*SendSmsRequest)(nil),   // 1: gsm.SendSmsRequest
+	(*FlashCallRequest)(nil), // 2: gsm.FlashCallRequest
 }
 var file_gsm_gsm_proto_depIdxs = []int32{
-	0, // 0: gsm.Gsm.GetSms:input_type -> gsm.GetSmsRequest
-	2, // 1: gsm.Gsm.GetFlashCall:input_type -> gsm.GetFlashCallRequest
-	1, // 2: gsm.Gsm.GetSms:output_type -> gsm.GetSmsResponse
-	3, // 3: gsm.Gsm.GetFlashCall:output_type -> gsm.GetFlashCallResponse
+	1, // 0: gsm.Gsm.SendSms:input_type -> gsm.SendSmsRequest
+	2, // 1: gsm.Gsm.FlashCall:input_type -> gsm.FlashCallRequest
+	0, // 2: gsm.Gsm.SendSms:output_type -> gsm.CommonResponse
+	0, // 3: gsm.Gsm.FlashCall:output_type -> gsm.CommonResponse
 	2, // [2:4] is the sub-list for method output_type
 	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -282,7 +240,7 @@ func file_gsm_gsm_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_gsm_gsm_proto_msgTypes[0].Exporter = func(v any, i int) any {
-			switch v := v.(*GetSmsRequest); i {
+			switch v := v.(*CommonResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -294,7 +252,7 @@ func file_gsm_gsm_proto_init() {
 			}
 		}
 		file_gsm_gsm_proto_msgTypes[1].Exporter = func(v any, i int) any {
-			switch v := v.(*GetSmsResponse); i {
+			switch v := v.(*SendSmsRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -306,19 +264,7 @@ func file_gsm_gsm_proto_init() {
 			}
 		}
 		file_gsm_gsm_proto_msgTypes[2].Exporter = func(v any, i int) any {
-			switch v := v.(*GetFlashCallRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_gsm_gsm_proto_msgTypes[3].Exporter = func(v any, i int) any {
-			switch v := v.(*GetFlashCallResponse); i {
+			switch v := v.(*FlashCallRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -336,7 +282,7 @@ func file_gsm_gsm_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_gsm_gsm_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

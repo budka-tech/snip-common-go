@@ -21,53 +21,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type CommonRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	AccountId uint32 `protobuf:"varint,2,opt,name=accountId,proto3" json:"accountId,omitempty"`
-}
-
-func (x *CommonRequest) Reset() {
-	*x = CommonRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_users_users_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *CommonRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CommonRequest) ProtoMessage() {}
-
-func (x *CommonRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_users_users_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CommonRequest.ProtoReflect.Descriptor instead.
-func (*CommonRequest) Descriptor() ([]byte, []int) {
-	return file_users_users_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *CommonRequest) GetAccountId() uint32 {
-	if x != nil {
-		return x.AccountId
-	}
-	return 0
-}
-
 type CommonResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -80,7 +33,7 @@ type CommonResponse struct {
 func (x *CommonResponse) Reset() {
 	*x = CommonResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_users_users_proto_msgTypes[1]
+		mi := &file_users_users_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -93,7 +46,7 @@ func (x *CommonResponse) String() string {
 func (*CommonResponse) ProtoMessage() {}
 
 func (x *CommonResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_users_users_proto_msgTypes[1]
+	mi := &file_users_users_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -106,7 +59,7 @@ func (x *CommonResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CommonResponse.ProtoReflect.Descriptor instead.
 func (*CommonResponse) Descriptor() ([]byte, []int) {
-	return file_users_users_proto_rawDescGZIP(), []int{1}
+	return file_users_users_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *CommonResponse) GetStatus() bool {
@@ -119,6 +72,53 @@ func (x *CommonResponse) GetStatus() bool {
 func (x *CommonResponse) GetCode() uint32 {
 	if x != nil {
 		return x.Code
+	}
+	return 0
+}
+
+type CommonRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	AccountId uint32 `protobuf:"varint,2,opt,name=accountId,proto3" json:"accountId,omitempty"`
+}
+
+func (x *CommonRequest) Reset() {
+	*x = CommonRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_users_users_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CommonRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CommonRequest) ProtoMessage() {}
+
+func (x *CommonRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_users_users_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CommonRequest.ProtoReflect.Descriptor instead.
+func (*CommonRequest) Descriptor() ([]byte, []int) {
+	return file_users_users_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *CommonRequest) GetAccountId() uint32 {
+	if x != nil {
+		return x.AccountId
 	}
 	return 0
 }
@@ -1115,14 +1115,14 @@ var file_users_users_proto_rawDesc = []byte{
 	0x0a, 0x11, 0x75, 0x73, 0x65, 0x72, 0x73, 0x2f, 0x75, 0x73, 0x65, 0x72, 0x73, 0x2e, 0x70, 0x72,
 	0x6f, 0x74, 0x6f, 0x12, 0x05, 0x75, 0x73, 0x65, 0x72, 0x73, 0x1a, 0x1f, 0x67, 0x6f, 0x6f, 0x67,
 	0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x74, 0x69, 0x6d, 0x65,
-	0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x2d, 0x0a, 0x0d, 0x43,
-	0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09,
-	0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x49, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x52,
-	0x09, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x49, 0x64, 0x22, 0x3c, 0x0a, 0x0e, 0x43, 0x6f,
-	0x6d, 0x6d, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06,
-	0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06, 0x73, 0x74,
-	0x61, 0x74, 0x75, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x0d, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x22, 0x4f, 0x0a, 0x11, 0x48, 0x61, 0x73, 0x53,
+	0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x3c, 0x0a, 0x0e, 0x43,
+	0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a,
+	0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06, 0x73,
+	0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x0d, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x22, 0x2d, 0x0a, 0x0d, 0x43, 0x6f, 0x6d,
+	0x6d, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x61, 0x63,
+	0x63, 0x6f, 0x75, 0x6e, 0x74, 0x49, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x09, 0x61,
+	0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x49, 0x64, 0x22, 0x4f, 0x0a, 0x11, 0x48, 0x61, 0x73, 0x53,
 	0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a,
 	0x09, 0x73, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03,
 	0x52, 0x09, 0x73, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x12, 0x1c, 0x0a, 0x09, 0x61,
@@ -1306,8 +1306,8 @@ func file_users_users_proto_rawDescGZIP() []byte {
 
 var file_users_users_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_users_users_proto_goTypes = []any{
-	(*CommonRequest)(nil),            // 0: users.CommonRequest
-	(*CommonResponse)(nil),           // 1: users.CommonResponse
+	(*CommonResponse)(nil),           // 0: users.CommonResponse
+	(*CommonRequest)(nil),            // 1: users.CommonRequest
 	(*HasSessionRequest)(nil),        // 2: users.HasSessionRequest
 	(*RegisterRequest)(nil),          // 3: users.RegisterRequest
 	(*LoginRequest)(nil),             // 4: users.LoginRequest
@@ -1340,23 +1340,23 @@ var file_users_users_proto_depIdxs = []int32{
 	3,  // 12: users.Users.Register:input_type -> users.RegisterRequest
 	4,  // 13: users.Users.Login:input_type -> users.LoginRequest
 	2,  // 14: users.Users.HasSession:input_type -> users.HasSessionRequest
-	0,  // 15: users.Users.GetAccount:input_type -> users.CommonRequest
+	1,  // 15: users.Users.GetAccount:input_type -> users.CommonRequest
 	10, // 16: users.Users.UpdateAccountData:input_type -> users.UpdateAccountDataRequest
 	11, // 17: users.Users.UpdatePassword:input_type -> users.UpdatePasswordRequest
 	12, // 18: users.Users.UpdatePhoto:input_type -> users.UpdatePhotoRequest
 	13, // 19: users.Users.AddPhone:input_type -> users.AddPhoneRequest
 	12, // 20: users.Users.UpdatePhone:input_type -> users.UpdatePhotoRequest
 	15, // 21: users.Users.RemovePhone:input_type -> users.RemovePhoneRequest
-	1,  // 22: users.Users.Register:output_type -> users.CommonResponse
+	0,  // 22: users.Users.Register:output_type -> users.CommonResponse
 	5,  // 23: users.Users.Login:output_type -> users.LoginResponse
-	1,  // 24: users.Users.HasSession:output_type -> users.CommonResponse
+	0,  // 24: users.Users.HasSession:output_type -> users.CommonResponse
 	6,  // 25: users.Users.GetAccount:output_type -> users.Account
-	1,  // 26: users.Users.UpdateAccountData:output_type -> users.CommonResponse
-	1,  // 27: users.Users.UpdatePassword:output_type -> users.CommonResponse
-	1,  // 28: users.Users.UpdatePhoto:output_type -> users.CommonResponse
-	1,  // 29: users.Users.AddPhone:output_type -> users.CommonResponse
-	1,  // 30: users.Users.UpdatePhone:output_type -> users.CommonResponse
-	1,  // 31: users.Users.RemovePhone:output_type -> users.CommonResponse
+	0,  // 26: users.Users.UpdateAccountData:output_type -> users.CommonResponse
+	0,  // 27: users.Users.UpdatePassword:output_type -> users.CommonResponse
+	0,  // 28: users.Users.UpdatePhoto:output_type -> users.CommonResponse
+	0,  // 29: users.Users.AddPhone:output_type -> users.CommonResponse
+	0,  // 30: users.Users.UpdatePhone:output_type -> users.CommonResponse
+	0,  // 31: users.Users.RemovePhone:output_type -> users.CommonResponse
 	22, // [22:32] is the sub-list for method output_type
 	12, // [12:22] is the sub-list for method input_type
 	12, // [12:12] is the sub-list for extension type_name
@@ -1371,7 +1371,7 @@ func file_users_users_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_users_users_proto_msgTypes[0].Exporter = func(v any, i int) any {
-			switch v := v.(*CommonRequest); i {
+			switch v := v.(*CommonResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1383,7 +1383,7 @@ func file_users_users_proto_init() {
 			}
 		}
 		file_users_users_proto_msgTypes[1].Exporter = func(v any, i int) any {
-			switch v := v.(*CommonResponse); i {
+			switch v := v.(*CommonRequest); i {
 			case 0:
 				return &v.state
 			case 1:
