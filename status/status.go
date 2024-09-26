@@ -6,7 +6,7 @@ const (
   Success Status = iota // Успешно
   Any  // Любая ошибка
   NotFound  // Не найдено
-  AlreadyAvailable  // Уже имеется
+  AlreadyExists  // Уже имеется
   PermissionDenied  // Недостаточно прав
   TooFrequentRequests  // Слишком частые запросы
   InternalError  // Внутренняя ошибка сервера
@@ -17,15 +17,16 @@ const (
   IncorrectValue  // Неверное значение
   Inactivity  // Бездействие
   Timeout  // Время ожидания истекло
-  InvalidInput  // Неверный ввод
   ResourceUnavailable  // Ресурс недоступен
   OperationFailed  // Операция не удалась
+  Conflict  // Конфликт
+  NotImplemented  // Не реализован
 )
 var m = map[Status]string{
   Success:"Успешно",
   Any:"Любая ошибка",
   NotFound:"Не найдено",
-  AlreadyAvailable:"Уже имеется",
+  AlreadyExists:"Уже имеется",
   PermissionDenied:"Недостаточно прав",
   TooFrequentRequests:"Слишком частые запросы",
   InternalError:"Внутренняя ошибка сервера",
@@ -36,9 +37,10 @@ var m = map[Status]string{
   IncorrectValue:"Неверное значение",
   Inactivity:"Бездействие",
   Timeout:"Время ожидания истекло",
-  InvalidInput:"Неверный ввод",
   ResourceUnavailable:"Ресурс недоступен",
   OperationFailed:"Операция не удалась",
+  Conflict:"Конфликт",
+  NotImplemented:"Не реализован",
 }
 
 func Readable(s Status) string {
