@@ -33,6 +33,6 @@ func GrpcError(st Status) error {
 	return gstatus.Error(mGrpc[Any], Readable(st))
 }
 
-func ProtoError(st Status) uint32 {
+func Proto(st Status) uint32 {
 	return uint32(st)
 }
