@@ -36,3 +36,7 @@ func GrpcError(st Status) error {
 func Proto(st Status) uint32 {
 	return uint32(st)
 }
+
+func FromProto(st uint32) Status {
+	return Status(st)
+}
