@@ -3,7 +3,7 @@ package status
 type Status = uint16
 
 const (
-  Success Status = iota // Успешно
+  OK Status = iota // Успешно
   Any  // Любая ошибка
   NotFound  // Не найдено
   AlreadyExists  // Уже имеется
@@ -19,11 +19,10 @@ const (
   Timeout  // Время ожидания истекло
   ResourceUnavailable  // Ресурс недоступен
   OperationFailed  // Операция не удалась
-  Conflict  // Конфликт
   NotImplemented  // Не реализован
 )
 var m = map[Status]string{
-  Success:"Успешно",
+  OK:"Успешно",
   Any:"Любая ошибка",
   NotFound:"Не найдено",
   AlreadyExists:"Уже имеется",
@@ -39,7 +38,6 @@ var m = map[Status]string{
   Timeout:"Время ожидания истекло",
   ResourceUnavailable:"Ресурс недоступен",
   OperationFailed:"Операция не удалась",
-  Conflict:"Конфликт",
   NotImplemented:"Не реализован",
 }
 
