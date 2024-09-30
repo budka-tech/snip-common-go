@@ -16,3 +16,7 @@ const (
 func Format(port Port) string {
 	return fmt.Sprintf("%d", port)
 }
+
+func FormatTCP(port Port) string {
+	return fmt.Sprintf(":%d", port)
+}
