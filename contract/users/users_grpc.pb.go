@@ -2,16 +2,16 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.27.3
-// source: users.proto
+// source: users/users.proto
 
 package usersv1
 
 import (
 	context "context"
+	common "github.com/budka-tech/snip-common-go/contract/common"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	snip_common "snip.common"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -39,17 +39,17 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UsersClient interface {
 	Identification(ctx context.Context, in *IdentificationRequest, opts ...grpc.CallOption) (*IdentificationResponse, error)
-	CheckCode(ctx context.Context, in *CheckCodeRequest, opts ...grpc.CallOption) (*snip_common.Response, error)
+	CheckCode(ctx context.Context, in *CheckCodeRequest, opts ...grpc.CallOption) (*common.Response, error)
 	LoginByCode(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*LoginResponse, error)
-	HasSession(ctx context.Context, in *HasSessionRequest, opts ...grpc.CallOption) (*snip_common.Response, error)
+	HasSession(ctx context.Context, in *HasSessionRequest, opts ...grpc.CallOption) (*common.Response, error)
 	GetAccount(ctx context.Context, in *CommonRequest, opts ...grpc.CallOption) (*Account, error)
-	UpdateAccountData(ctx context.Context, in *UpdateAccountDataRequest, opts ...grpc.CallOption) (*snip_common.Response, error)
-	UpdatePassword(ctx context.Context, in *UpdatePasswordRequest, opts ...grpc.CallOption) (*snip_common.Response, error)
-	UpdatePhoto(ctx context.Context, in *UpdatePhotoRequest, opts ...grpc.CallOption) (*snip_common.Response, error)
-	AddPhone(ctx context.Context, in *AddPhoneRequest, opts ...grpc.CallOption) (*snip_common.Response, error)
-	UpdatePhone(ctx context.Context, in *UpdatePhotoRequest, opts ...grpc.CallOption) (*snip_common.Response, error)
-	RemovePhone(ctx context.Context, in *RemovePhoneRequest, opts ...grpc.CallOption) (*snip_common.Response, error)
+	UpdateAccountData(ctx context.Context, in *UpdateAccountDataRequest, opts ...grpc.CallOption) (*common.Response, error)
+	UpdatePassword(ctx context.Context, in *UpdatePasswordRequest, opts ...grpc.CallOption) (*common.Response, error)
+	UpdatePhoto(ctx context.Context, in *UpdatePhotoRequest, opts ...grpc.CallOption) (*common.Response, error)
+	AddPhone(ctx context.Context, in *AddPhoneRequest, opts ...grpc.CallOption) (*common.Response, error)
+	UpdatePhone(ctx context.Context, in *UpdatePhotoRequest, opts ...grpc.CallOption) (*common.Response, error)
+	RemovePhone(ctx context.Context, in *RemovePhoneRequest, opts ...grpc.CallOption) (*common.Response, error)
 }
 
 type usersClient struct {
@@ -70,9 +70,9 @@ func (c *usersClient) Identification(ctx context.Context, in *IdentificationRequ
 	return out, nil
 }
 
-func (c *usersClient) CheckCode(ctx context.Context, in *CheckCodeRequest, opts ...grpc.CallOption) (*snip_common.Response, error) {
+func (c *usersClient) CheckCode(ctx context.Context, in *CheckCodeRequest, opts ...grpc.CallOption) (*common.Response, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(snip_common.Response)
+	out := new(common.Response)
 	err := c.cc.Invoke(ctx, Users_CheckCode_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -100,9 +100,9 @@ func (c *usersClient) Register(ctx context.Context, in *RegisterRequest, opts ..
 	return out, nil
 }
 
-func (c *usersClient) HasSession(ctx context.Context, in *HasSessionRequest, opts ...grpc.CallOption) (*snip_common.Response, error) {
+func (c *usersClient) HasSession(ctx context.Context, in *HasSessionRequest, opts ...grpc.CallOption) (*common.Response, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(snip_common.Response)
+	out := new(common.Response)
 	err := c.cc.Invoke(ctx, Users_HasSession_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -120,9 +120,9 @@ func (c *usersClient) GetAccount(ctx context.Context, in *CommonRequest, opts ..
 	return out, nil
 }
 
-func (c *usersClient) UpdateAccountData(ctx context.Context, in *UpdateAccountDataRequest, opts ...grpc.CallOption) (*snip_common.Response, error) {
+func (c *usersClient) UpdateAccountData(ctx context.Context, in *UpdateAccountDataRequest, opts ...grpc.CallOption) (*common.Response, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(snip_common.Response)
+	out := new(common.Response)
 	err := c.cc.Invoke(ctx, Users_UpdateAccountData_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -130,9 +130,9 @@ func (c *usersClient) UpdateAccountData(ctx context.Context, in *UpdateAccountDa
 	return out, nil
 }
 
-func (c *usersClient) UpdatePassword(ctx context.Context, in *UpdatePasswordRequest, opts ...grpc.CallOption) (*snip_common.Response, error) {
+func (c *usersClient) UpdatePassword(ctx context.Context, in *UpdatePasswordRequest, opts ...grpc.CallOption) (*common.Response, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(snip_common.Response)
+	out := new(common.Response)
 	err := c.cc.Invoke(ctx, Users_UpdatePassword_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -140,9 +140,9 @@ func (c *usersClient) UpdatePassword(ctx context.Context, in *UpdatePasswordRequ
 	return out, nil
 }
 
-func (c *usersClient) UpdatePhoto(ctx context.Context, in *UpdatePhotoRequest, opts ...grpc.CallOption) (*snip_common.Response, error) {
+func (c *usersClient) UpdatePhoto(ctx context.Context, in *UpdatePhotoRequest, opts ...grpc.CallOption) (*common.Response, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(snip_common.Response)
+	out := new(common.Response)
 	err := c.cc.Invoke(ctx, Users_UpdatePhoto_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -150,9 +150,9 @@ func (c *usersClient) UpdatePhoto(ctx context.Context, in *UpdatePhotoRequest, o
 	return out, nil
 }
 
-func (c *usersClient) AddPhone(ctx context.Context, in *AddPhoneRequest, opts ...grpc.CallOption) (*snip_common.Response, error) {
+func (c *usersClient) AddPhone(ctx context.Context, in *AddPhoneRequest, opts ...grpc.CallOption) (*common.Response, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(snip_common.Response)
+	out := new(common.Response)
 	err := c.cc.Invoke(ctx, Users_AddPhone_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -160,9 +160,9 @@ func (c *usersClient) AddPhone(ctx context.Context, in *AddPhoneRequest, opts ..
 	return out, nil
 }
 
-func (c *usersClient) UpdatePhone(ctx context.Context, in *UpdatePhotoRequest, opts ...grpc.CallOption) (*snip_common.Response, error) {
+func (c *usersClient) UpdatePhone(ctx context.Context, in *UpdatePhotoRequest, opts ...grpc.CallOption) (*common.Response, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(snip_common.Response)
+	out := new(common.Response)
 	err := c.cc.Invoke(ctx, Users_UpdatePhone_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -170,9 +170,9 @@ func (c *usersClient) UpdatePhone(ctx context.Context, in *UpdatePhotoRequest, o
 	return out, nil
 }
 
-func (c *usersClient) RemovePhone(ctx context.Context, in *RemovePhoneRequest, opts ...grpc.CallOption) (*snip_common.Response, error) {
+func (c *usersClient) RemovePhone(ctx context.Context, in *RemovePhoneRequest, opts ...grpc.CallOption) (*common.Response, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(snip_common.Response)
+	out := new(common.Response)
 	err := c.cc.Invoke(ctx, Users_RemovePhone_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -185,17 +185,17 @@ func (c *usersClient) RemovePhone(ctx context.Context, in *RemovePhoneRequest, o
 // for forward compatibility.
 type UsersServer interface {
 	Identification(context.Context, *IdentificationRequest) (*IdentificationResponse, error)
-	CheckCode(context.Context, *CheckCodeRequest) (*snip_common.Response, error)
+	CheckCode(context.Context, *CheckCodeRequest) (*common.Response, error)
 	LoginByCode(context.Context, *LoginRequest) (*LoginResponse, error)
 	Register(context.Context, *RegisterRequest) (*LoginResponse, error)
-	HasSession(context.Context, *HasSessionRequest) (*snip_common.Response, error)
+	HasSession(context.Context, *HasSessionRequest) (*common.Response, error)
 	GetAccount(context.Context, *CommonRequest) (*Account, error)
-	UpdateAccountData(context.Context, *UpdateAccountDataRequest) (*snip_common.Response, error)
-	UpdatePassword(context.Context, *UpdatePasswordRequest) (*snip_common.Response, error)
-	UpdatePhoto(context.Context, *UpdatePhotoRequest) (*snip_common.Response, error)
-	AddPhone(context.Context, *AddPhoneRequest) (*snip_common.Response, error)
-	UpdatePhone(context.Context, *UpdatePhotoRequest) (*snip_common.Response, error)
-	RemovePhone(context.Context, *RemovePhoneRequest) (*snip_common.Response, error)
+	UpdateAccountData(context.Context, *UpdateAccountDataRequest) (*common.Response, error)
+	UpdatePassword(context.Context, *UpdatePasswordRequest) (*common.Response, error)
+	UpdatePhoto(context.Context, *UpdatePhotoRequest) (*common.Response, error)
+	AddPhone(context.Context, *AddPhoneRequest) (*common.Response, error)
+	UpdatePhone(context.Context, *UpdatePhotoRequest) (*common.Response, error)
+	RemovePhone(context.Context, *RemovePhoneRequest) (*common.Response, error)
 	mustEmbedUnimplementedUsersServer()
 }
 
@@ -209,7 +209,7 @@ type UnimplementedUsersServer struct{}
 func (UnimplementedUsersServer) Identification(context.Context, *IdentificationRequest) (*IdentificationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Identification not implemented")
 }
-func (UnimplementedUsersServer) CheckCode(context.Context, *CheckCodeRequest) (*snip_common.Response, error) {
+func (UnimplementedUsersServer) CheckCode(context.Context, *CheckCodeRequest) (*common.Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CheckCode not implemented")
 }
 func (UnimplementedUsersServer) LoginByCode(context.Context, *LoginRequest) (*LoginResponse, error) {
@@ -218,28 +218,28 @@ func (UnimplementedUsersServer) LoginByCode(context.Context, *LoginRequest) (*Lo
 func (UnimplementedUsersServer) Register(context.Context, *RegisterRequest) (*LoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
 }
-func (UnimplementedUsersServer) HasSession(context.Context, *HasSessionRequest) (*snip_common.Response, error) {
+func (UnimplementedUsersServer) HasSession(context.Context, *HasSessionRequest) (*common.Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method HasSession not implemented")
 }
 func (UnimplementedUsersServer) GetAccount(context.Context, *CommonRequest) (*Account, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAccount not implemented")
 }
-func (UnimplementedUsersServer) UpdateAccountData(context.Context, *UpdateAccountDataRequest) (*snip_common.Response, error) {
+func (UnimplementedUsersServer) UpdateAccountData(context.Context, *UpdateAccountDataRequest) (*common.Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAccountData not implemented")
 }
-func (UnimplementedUsersServer) UpdatePassword(context.Context, *UpdatePasswordRequest) (*snip_common.Response, error) {
+func (UnimplementedUsersServer) UpdatePassword(context.Context, *UpdatePasswordRequest) (*common.Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdatePassword not implemented")
 }
-func (UnimplementedUsersServer) UpdatePhoto(context.Context, *UpdatePhotoRequest) (*snip_common.Response, error) {
+func (UnimplementedUsersServer) UpdatePhoto(context.Context, *UpdatePhotoRequest) (*common.Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdatePhoto not implemented")
 }
-func (UnimplementedUsersServer) AddPhone(context.Context, *AddPhoneRequest) (*snip_common.Response, error) {
+func (UnimplementedUsersServer) AddPhone(context.Context, *AddPhoneRequest) (*common.Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddPhone not implemented")
 }
-func (UnimplementedUsersServer) UpdatePhone(context.Context, *UpdatePhotoRequest) (*snip_common.Response, error) {
+func (UnimplementedUsersServer) UpdatePhone(context.Context, *UpdatePhotoRequest) (*common.Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdatePhone not implemented")
 }
-func (UnimplementedUsersServer) RemovePhone(context.Context, *RemovePhoneRequest) (*snip_common.Response, error) {
+func (UnimplementedUsersServer) RemovePhone(context.Context, *RemovePhoneRequest) (*common.Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemovePhone not implemented")
 }
 func (UnimplementedUsersServer) mustEmbedUnimplementedUsersServer() {}
@@ -536,5 +536,5 @@ var Users_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "users.proto",
+	Metadata: "users/users.proto",
 }

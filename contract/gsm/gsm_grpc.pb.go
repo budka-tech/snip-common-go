@@ -2,16 +2,16 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.27.3
-// source: gsm.proto
+// source: gsm/gsm.proto
 
 package gsmv1
 
 import (
 	context "context"
+	common "github.com/budka-tech/snip-common-go/contract/common"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	snip_common "snip.common"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -28,8 +28,8 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GsmClient interface {
-	SendSms(ctx context.Context, in *SendSmsRequest, opts ...grpc.CallOption) (*snip_common.Response, error)
-	FlashCall(ctx context.Context, in *FlashCallRequest, opts ...grpc.CallOption) (*snip_common.Response, error)
+	SendSms(ctx context.Context, in *SendSmsRequest, opts ...grpc.CallOption) (*common.Response, error)
+	FlashCall(ctx context.Context, in *FlashCallRequest, opts ...grpc.CallOption) (*common.Response, error)
 }
 
 type gsmClient struct {
@@ -40,9 +40,9 @@ func NewGsmClient(cc grpc.ClientConnInterface) GsmClient {
 	return &gsmClient{cc}
 }
 
-func (c *gsmClient) SendSms(ctx context.Context, in *SendSmsRequest, opts ...grpc.CallOption) (*snip_common.Response, error) {
+func (c *gsmClient) SendSms(ctx context.Context, in *SendSmsRequest, opts ...grpc.CallOption) (*common.Response, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(snip_common.Response)
+	out := new(common.Response)
 	err := c.cc.Invoke(ctx, Gsm_SendSms_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -50,9 +50,9 @@ func (c *gsmClient) SendSms(ctx context.Context, in *SendSmsRequest, opts ...grp
 	return out, nil
 }
 
-func (c *gsmClient) FlashCall(ctx context.Context, in *FlashCallRequest, opts ...grpc.CallOption) (*snip_common.Response, error) {
+func (c *gsmClient) FlashCall(ctx context.Context, in *FlashCallRequest, opts ...grpc.CallOption) (*common.Response, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(snip_common.Response)
+	out := new(common.Response)
 	err := c.cc.Invoke(ctx, Gsm_FlashCall_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -64,8 +64,8 @@ func (c *gsmClient) FlashCall(ctx context.Context, in *FlashCallRequest, opts ..
 // All implementations must embed UnimplementedGsmServer
 // for forward compatibility.
 type GsmServer interface {
-	SendSms(context.Context, *SendSmsRequest) (*snip_common.Response, error)
-	FlashCall(context.Context, *FlashCallRequest) (*snip_common.Response, error)
+	SendSms(context.Context, *SendSmsRequest) (*common.Response, error)
+	FlashCall(context.Context, *FlashCallRequest) (*common.Response, error)
 	mustEmbedUnimplementedGsmServer()
 }
 
@@ -76,10 +76,10 @@ type GsmServer interface {
 // pointer dereference when methods are called.
 type UnimplementedGsmServer struct{}
 
-func (UnimplementedGsmServer) SendSms(context.Context, *SendSmsRequest) (*snip_common.Response, error) {
+func (UnimplementedGsmServer) SendSms(context.Context, *SendSmsRequest) (*common.Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendSms not implemented")
 }
-func (UnimplementedGsmServer) FlashCall(context.Context, *FlashCallRequest) (*snip_common.Response, error) {
+func (UnimplementedGsmServer) FlashCall(context.Context, *FlashCallRequest) (*common.Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FlashCall not implemented")
 }
 func (UnimplementedGsmServer) mustEmbedUnimplementedGsmServer() {}
@@ -156,5 +156,5 @@ var Gsm_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "gsm.proto",
+	Metadata: "gsm/gsm.proto",
 }
