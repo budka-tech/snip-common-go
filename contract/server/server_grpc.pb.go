@@ -11,7 +11,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	anypb "google.golang.org/protobuf/types/known/anypb"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -29,9 +29,9 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ServerClient interface {
-	Call(ctx context.Context, in *Request, opts ...grpc.CallOption) (*CallResponse, error)
-	Subscribe(ctx context.Context, in *Request, opts ...grpc.CallOption) (*SubscribeResponse, error)
-	UnSubscribe(ctx context.Context, in *UnsubscribeRequest, opts ...grpc.CallOption) (*anypb.Any, error)
+	Call(ctx context.Context, in *Request, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Subscribe(ctx context.Context, in *Request, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	UnSubscribe(ctx context.Context, in *UnsubscribeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type serverClient struct {
@@ -42,9 +42,9 @@ func NewServerClient(cc grpc.ClientConnInterface) ServerClient {
 	return &serverClient{cc}
 }
 
-func (c *serverClient) Call(ctx context.Context, in *Request, opts ...grpc.CallOption) (*CallResponse, error) {
+func (c *serverClient) Call(ctx context.Context, in *Request, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CallResponse)
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, Server_Call_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -52,9 +52,9 @@ func (c *serverClient) Call(ctx context.Context, in *Request, opts ...grpc.CallO
 	return out, nil
 }
 
-func (c *serverClient) Subscribe(ctx context.Context, in *Request, opts ...grpc.CallOption) (*SubscribeResponse, error) {
+func (c *serverClient) Subscribe(ctx context.Context, in *Request, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SubscribeResponse)
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, Server_Subscribe_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -62,9 +62,9 @@ func (c *serverClient) Subscribe(ctx context.Context, in *Request, opts ...grpc.
 	return out, nil
 }
 
-func (c *serverClient) UnSubscribe(ctx context.Context, in *UnsubscribeRequest, opts ...grpc.CallOption) (*anypb.Any, error) {
+func (c *serverClient) UnSubscribe(ctx context.Context, in *UnsubscribeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(anypb.Any)
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, Server_UnSubscribe_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -76,9 +76,9 @@ func (c *serverClient) UnSubscribe(ctx context.Context, in *UnsubscribeRequest, 
 // All implementations must embed UnimplementedServerServer
 // for forward compatibility.
 type ServerServer interface {
-	Call(context.Context, *Request) (*CallResponse, error)
-	Subscribe(context.Context, *Request) (*SubscribeResponse, error)
-	UnSubscribe(context.Context, *UnsubscribeRequest) (*anypb.Any, error)
+	Call(context.Context, *Request) (*emptypb.Empty, error)
+	Subscribe(context.Context, *Request) (*emptypb.Empty, error)
+	UnSubscribe(context.Context, *UnsubscribeRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedServerServer()
 }
 
@@ -89,13 +89,13 @@ type ServerServer interface {
 // pointer dereference when methods are called.
 type UnimplementedServerServer struct{}
 
-func (UnimplementedServerServer) Call(context.Context, *Request) (*CallResponse, error) {
+func (UnimplementedServerServer) Call(context.Context, *Request) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Call not implemented")
 }
-func (UnimplementedServerServer) Subscribe(context.Context, *Request) (*SubscribeResponse, error) {
+func (UnimplementedServerServer) Subscribe(context.Context, *Request) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Subscribe not implemented")
 }
-func (UnimplementedServerServer) UnSubscribe(context.Context, *UnsubscribeRequest) (*anypb.Any, error) {
+func (UnimplementedServerServer) UnSubscribe(context.Context, *UnsubscribeRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UnSubscribe not implemented")
 }
 func (UnimplementedServerServer) mustEmbedUnimplementedServerServer() {}
