@@ -19,8 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
+	Users_Identification_FullMethodName    = "/users.Users/Identification"
+	Users_CheckCode_FullMethodName         = "/users.Users/CheckCode"
+	Users_LoginByCode_FullMethodName       = "/users.Users/LoginByCode"
 	Users_Register_FullMethodName          = "/users.Users/Register"
-	Users_Login_FullMethodName             = "/users.Users/Login"
 	Users_HasSession_FullMethodName        = "/users.Users/HasSession"
 	Users_GetAccount_FullMethodName        = "/users.Users/GetAccount"
 	Users_UpdateAccountData_FullMethodName = "/users.Users/UpdateAccountData"
@@ -35,8 +37,10 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UsersClient interface {
-	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*CommonResponse, error)
-	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
+	Identification(ctx context.Context, in *IdentificationRequest, opts ...grpc.CallOption) (*IdentificationResponse, error)
+	CheckCode(ctx context.Context, in *CheckCodeRequest, opts ...grpc.CallOption) (*CommonResponse, error)
+	LoginByCode(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
+	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	HasSession(ctx context.Context, in *HasSessionRequest, opts ...grpc.CallOption) (*CommonResponse, error)
 	GetAccount(ctx context.Context, in *CommonRequest, opts ...grpc.CallOption) (*Account, error)
 	UpdateAccountData(ctx context.Context, in *UpdateAccountDataRequest, opts ...grpc.CallOption) (*CommonResponse, error)
@@ -55,20 +59,40 @@ func NewUsersClient(cc grpc.ClientConnInterface) UsersClient {
 	return &usersClient{cc}
 }
 
-func (c *usersClient) Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*CommonResponse, error) {
+func (c *usersClient) Identification(ctx context.Context, in *IdentificationRequest, opts ...grpc.CallOption) (*IdentificationResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CommonResponse)
-	err := c.cc.Invoke(ctx, Users_Register_FullMethodName, in, out, cOpts...)
+	out := new(IdentificationResponse)
+	err := c.cc.Invoke(ctx, Users_Identification_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *usersClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
+func (c *usersClient) CheckCode(ctx context.Context, in *CheckCodeRequest, opts ...grpc.CallOption) (*CommonResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CommonResponse)
+	err := c.cc.Invoke(ctx, Users_CheckCode_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *usersClient) LoginByCode(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(LoginResponse)
-	err := c.cc.Invoke(ctx, Users_Login_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, Users_LoginByCode_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *usersClient) Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LoginResponse)
+	err := c.cc.Invoke(ctx, Users_Register_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -159,8 +183,10 @@ func (c *usersClient) RemovePhone(ctx context.Context, in *RemovePhoneRequest, o
 // All implementations must embed UnimplementedUsersServer
 // for forward compatibility.
 type UsersServer interface {
-	Register(context.Context, *RegisterRequest) (*CommonResponse, error)
-	Login(context.Context, *LoginRequest) (*LoginResponse, error)
+	Identification(context.Context, *IdentificationRequest) (*IdentificationResponse, error)
+	CheckCode(context.Context, *CheckCodeRequest) (*CommonResponse, error)
+	LoginByCode(context.Context, *LoginRequest) (*LoginResponse, error)
+	Register(context.Context, *RegisterRequest) (*LoginResponse, error)
 	HasSession(context.Context, *HasSessionRequest) (*CommonResponse, error)
 	GetAccount(context.Context, *CommonRequest) (*Account, error)
 	UpdateAccountData(context.Context, *UpdateAccountDataRequest) (*CommonResponse, error)
@@ -179,11 +205,17 @@ type UsersServer interface {
 // pointer dereference when methods are called.
 type UnimplementedUsersServer struct{}
 
-func (UnimplementedUsersServer) Register(context.Context, *RegisterRequest) (*CommonResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
+func (UnimplementedUsersServer) Identification(context.Context, *IdentificationRequest) (*IdentificationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Identification not implemented")
 }
-func (UnimplementedUsersServer) Login(context.Context, *LoginRequest) (*LoginResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
+func (UnimplementedUsersServer) CheckCode(context.Context, *CheckCodeRequest) (*CommonResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckCode not implemented")
+}
+func (UnimplementedUsersServer) LoginByCode(context.Context, *LoginRequest) (*LoginResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LoginByCode not implemented")
+}
+func (UnimplementedUsersServer) Register(context.Context, *RegisterRequest) (*LoginResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
 }
 func (UnimplementedUsersServer) HasSession(context.Context, *HasSessionRequest) (*CommonResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method HasSession not implemented")
@@ -230,6 +262,60 @@ func RegisterUsersServer(s grpc.ServiceRegistrar, srv UsersServer) {
 	s.RegisterService(&Users_ServiceDesc, srv)
 }
 
+func _Users_Identification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdentificationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServer).Identification(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Users_Identification_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServer).Identification(ctx, req.(*IdentificationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Users_CheckCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServer).CheckCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Users_CheckCode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServer).CheckCode(ctx, req.(*CheckCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Users_LoginByCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServer).LoginByCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Users_LoginByCode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServer).LoginByCode(ctx, req.(*LoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Users_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RegisterRequest)
 	if err := dec(in); err != nil {
@@ -244,24 +330,6 @@ func _Users_Register_Handler(srv interface{}, ctx context.Context, dec func(inte
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UsersServer).Register(ctx, req.(*RegisterRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Users_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LoginRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UsersServer).Login(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Users_Login_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UsersServer).Login(ctx, req.(*LoginRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -418,12 +486,20 @@ var Users_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*UsersServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Register",
-			Handler:    _Users_Register_Handler,
+			MethodName: "Identification",
+			Handler:    _Users_Identification_Handler,
 		},
 		{
-			MethodName: "Login",
-			Handler:    _Users_Login_Handler,
+			MethodName: "CheckCode",
+			Handler:    _Users_CheckCode_Handler,
+		},
+		{
+			MethodName: "LoginByCode",
+			Handler:    _Users_LoginByCode_Handler,
+		},
+		{
+			MethodName: "Register",
+			Handler:    _Users_Register_Handler,
 		},
 		{
 			MethodName: "HasSession",
