@@ -20,18 +20,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Server_Call_FullMethodName        = "/server.Server/Call"
-	Server_Subscribe_FullMethodName   = "/server.Server/Subscribe"
-	Server_UnSubscribe_FullMethodName = "/server.Server/UnSubscribe"
+	Server_Request_FullMethodName = "/server.Server/Request"
 )
 
 // ServerClient is the client API for Server service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ServerClient interface {
-	Call(ctx context.Context, in *Request, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	Subscribe(ctx context.Context, in *Request, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	UnSubscribe(ctx context.Context, in *UnsubscribeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Request(ctx context.Context, in *ParamsRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type serverClient struct {
@@ -42,30 +38,10 @@ func NewServerClient(cc grpc.ClientConnInterface) ServerClient {
 	return &serverClient{cc}
 }
 
-func (c *serverClient) Call(ctx context.Context, in *Request, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *serverClient) Request(ctx context.Context, in *ParamsRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, Server_Call_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *serverClient) Subscribe(ctx context.Context, in *Request, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, Server_Subscribe_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *serverClient) UnSubscribe(ctx context.Context, in *UnsubscribeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, Server_UnSubscribe_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, Server_Request_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -76,9 +52,7 @@ func (c *serverClient) UnSubscribe(ctx context.Context, in *UnsubscribeRequest, 
 // All implementations must embed UnimplementedServerServer
 // for forward compatibility.
 type ServerServer interface {
-	Call(context.Context, *Request) (*emptypb.Empty, error)
-	Subscribe(context.Context, *Request) (*emptypb.Empty, error)
-	UnSubscribe(context.Context, *UnsubscribeRequest) (*emptypb.Empty, error)
+	Request(context.Context, *ParamsRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedServerServer()
 }
 
@@ -89,14 +63,8 @@ type ServerServer interface {
 // pointer dereference when methods are called.
 type UnimplementedServerServer struct{}
 
-func (UnimplementedServerServer) Call(context.Context, *Request) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Call not implemented")
-}
-func (UnimplementedServerServer) Subscribe(context.Context, *Request) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Subscribe not implemented")
-}
-func (UnimplementedServerServer) UnSubscribe(context.Context, *UnsubscribeRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UnSubscribe not implemented")
+func (UnimplementedServerServer) Request(context.Context, *ParamsRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Request not implemented")
 }
 func (UnimplementedServerServer) mustEmbedUnimplementedServerServer() {}
 func (UnimplementedServerServer) testEmbeddedByValue()                {}
@@ -119,56 +87,20 @@ func RegisterServerServer(s grpc.ServiceRegistrar, srv ServerServer) {
 	s.RegisterService(&Server_ServiceDesc, srv)
 }
 
-func _Server_Call_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Request)
+func _Server_Request_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ParamsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ServerServer).Call(ctx, in)
+		return srv.(ServerServer).Request(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Server_Call_FullMethodName,
+		FullMethod: Server_Request_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ServerServer).Call(ctx, req.(*Request))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Server_Subscribe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Request)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ServerServer).Subscribe(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Server_Subscribe_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ServerServer).Subscribe(ctx, req.(*Request))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Server_UnSubscribe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UnsubscribeRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ServerServer).UnSubscribe(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Server_UnSubscribe_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ServerServer).UnSubscribe(ctx, req.(*UnsubscribeRequest))
+		return srv.(ServerServer).Request(ctx, req.(*ParamsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -181,16 +113,8 @@ var Server_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*ServerServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Call",
-			Handler:    _Server_Call_Handler,
-		},
-		{
-			MethodName: "Subscribe",
-			Handler:    _Server_Subscribe_Handler,
-		},
-		{
-			MethodName: "UnSubscribe",
-			Handler:    _Server_UnSubscribe_Handler,
+			MethodName: "Request",
+			Handler:    _Server_Request_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
