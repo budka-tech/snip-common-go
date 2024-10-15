@@ -7,10 +7,11 @@ import (
 type Port = uint16
 
 const (
-	Users  Port = 10000
-	Gsm         = 10100
-	Push        = 10100
-	Assist      = 10300
+	UsersGrpc  Port = 10100
+	GsmGrpc         = 10200
+	GsmHttp         = 10201
+	PushGrpc        = 10300
+	AssistGrpc      = 10400
 )
 
 func Format(port Port) string {
