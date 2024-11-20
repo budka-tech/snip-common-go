@@ -31,7 +31,7 @@ const (
 	Assist_DeleteFolder_FullMethodName      = "/assist.Assist/DeleteFolder"
 	Assist_GetFolderByID_FullMethodName     = "/assist.Assist/GetFolderByID"
 	Assist_GetUserFolders_FullMethodName    = "/assist.Assist/GetUserFolders"
-	Assist_CreateMessage_FullMethodName     = "/assist.Assist/CreateMessage"
+	Assist_SendMessage_FullMethodName       = "/assist.Assist/SendMessage"
 	Assist_GetMessageByID_FullMethodName    = "/assist.Assist/GetMessageByID"
 	Assist_GetMessagesInChat_FullMethodName = "/assist.Assist/GetMessagesInChat"
 )
@@ -51,7 +51,7 @@ type AssistClient interface {
 	DeleteFolder(ctx context.Context, in *DeleteFolderRequest, opts ...grpc.CallOption) (*common.Response, error)
 	GetFolderByID(ctx context.Context, in *GetFolderByIDRequest, opts ...grpc.CallOption) (*GetFolderByIDResponse, error)
 	GetUserFolders(ctx context.Context, in *GetUserFoldersRequest, opts ...grpc.CallOption) (*GetUserFoldersResponse, error)
-	CreateMessage(ctx context.Context, in *CreateMessageRequest, opts ...grpc.CallOption) (*CreateMessageResponse, error)
+	SendMessage(ctx context.Context, in *SendMessageRequest, opts ...grpc.CallOption) (*SendMessageResponse, error)
 	GetMessageByID(ctx context.Context, in *GetMessageByIDRequest, opts ...grpc.CallOption) (*GetMessageByIDResponse, error)
 	GetMessagesInChat(ctx context.Context, in *GetMessagesInChatRequest, opts ...grpc.CallOption) (*GetMessagesInChatResponse, error)
 }
@@ -174,10 +174,10 @@ func (c *assistClient) GetUserFolders(ctx context.Context, in *GetUserFoldersReq
 	return out, nil
 }
 
-func (c *assistClient) CreateMessage(ctx context.Context, in *CreateMessageRequest, opts ...grpc.CallOption) (*CreateMessageResponse, error) {
+func (c *assistClient) SendMessage(ctx context.Context, in *SendMessageRequest, opts ...grpc.CallOption) (*SendMessageResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateMessageResponse)
-	err := c.cc.Invoke(ctx, Assist_CreateMessage_FullMethodName, in, out, cOpts...)
+	out := new(SendMessageResponse)
+	err := c.cc.Invoke(ctx, Assist_SendMessage_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -219,7 +219,7 @@ type AssistServer interface {
 	DeleteFolder(context.Context, *DeleteFolderRequest) (*common.Response, error)
 	GetFolderByID(context.Context, *GetFolderByIDRequest) (*GetFolderByIDResponse, error)
 	GetUserFolders(context.Context, *GetUserFoldersRequest) (*GetUserFoldersResponse, error)
-	CreateMessage(context.Context, *CreateMessageRequest) (*CreateMessageResponse, error)
+	SendMessage(context.Context, *SendMessageRequest) (*SendMessageResponse, error)
 	GetMessageByID(context.Context, *GetMessageByIDRequest) (*GetMessageByIDResponse, error)
 	GetMessagesInChat(context.Context, *GetMessagesInChatRequest) (*GetMessagesInChatResponse, error)
 	mustEmbedUnimplementedAssistServer()
@@ -265,8 +265,8 @@ func (UnimplementedAssistServer) GetFolderByID(context.Context, *GetFolderByIDRe
 func (UnimplementedAssistServer) GetUserFolders(context.Context, *GetUserFoldersRequest) (*GetUserFoldersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserFolders not implemented")
 }
-func (UnimplementedAssistServer) CreateMessage(context.Context, *CreateMessageRequest) (*CreateMessageResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateMessage not implemented")
+func (UnimplementedAssistServer) SendMessage(context.Context, *SendMessageRequest) (*SendMessageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendMessage not implemented")
 }
 func (UnimplementedAssistServer) GetMessageByID(context.Context, *GetMessageByIDRequest) (*GetMessageByIDResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMessageByID not implemented")
@@ -493,20 +493,20 @@ func _Assist_GetUserFolders_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Assist_CreateMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateMessageRequest)
+func _Assist_SendMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SendMessageRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AssistServer).CreateMessage(ctx, in)
+		return srv.(AssistServer).SendMessage(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Assist_CreateMessage_FullMethodName,
+		FullMethod: Assist_SendMessage_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AssistServer).CreateMessage(ctx, req.(*CreateMessageRequest))
+		return srv.(AssistServer).SendMessage(ctx, req.(*SendMessageRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -599,8 +599,8 @@ var Assist_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Assist_GetUserFolders_Handler,
 		},
 		{
-			MethodName: "CreateMessage",
-			Handler:    _Assist_CreateMessage_Handler,
+			MethodName: "SendMessage",
+			Handler:    _Assist_SendMessage_Handler,
 		},
 		{
 			MethodName: "GetMessageByID",

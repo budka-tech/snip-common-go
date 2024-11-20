@@ -20,7 +20,6 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Server_Whoami_FullMethodName  = "/server.Server/Whoami"
 	Server_Request_FullMethodName = "/server.Server/Request"
 )
 
@@ -28,7 +27,6 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ServerClient interface {
-	Whoami(ctx context.Context, in *WhoamiRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	Request(ctx context.Context, in *ParamsRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
@@ -38,16 +36,6 @@ type serverClient struct {
 
 func NewServerClient(cc grpc.ClientConnInterface) ServerClient {
 	return &serverClient{cc}
-}
-
-func (c *serverClient) Whoami(ctx context.Context, in *WhoamiRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, Server_Whoami_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *serverClient) Request(ctx context.Context, in *ParamsRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
@@ -64,7 +52,6 @@ func (c *serverClient) Request(ctx context.Context, in *ParamsRequest, opts ...g
 // All implementations must embed UnimplementedServerServer
 // for forward compatibility.
 type ServerServer interface {
-	Whoami(context.Context, *WhoamiRequest) (*emptypb.Empty, error)
 	Request(context.Context, *ParamsRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedServerServer()
 }
@@ -76,9 +63,6 @@ type ServerServer interface {
 // pointer dereference when methods are called.
 type UnimplementedServerServer struct{}
 
-func (UnimplementedServerServer) Whoami(context.Context, *WhoamiRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Whoami not implemented")
-}
 func (UnimplementedServerServer) Request(context.Context, *ParamsRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Request not implemented")
 }
@@ -101,24 +85,6 @@ func RegisterServerServer(s grpc.ServiceRegistrar, srv ServerServer) {
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&Server_ServiceDesc, srv)
-}
-
-func _Server_Whoami_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(WhoamiRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ServerServer).Whoami(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Server_Whoami_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ServerServer).Whoami(ctx, req.(*WhoamiRequest))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _Server_Request_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -146,10 +112,6 @@ var Server_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "server.Server",
 	HandlerType: (*ServerServer)(nil),
 	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "Whoami",
-			Handler:    _Server_Whoami_Handler,
-		},
 		{
 			MethodName: "Request",
 			Handler:    _Server_Request_Handler,
