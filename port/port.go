@@ -12,6 +12,7 @@ const (
 	GsmHttp         = 10201
 	PushGrpc        = 10300
 	AssistGrpc      = 10400
+	S3Grpc      = 10500
 )
 
 func Format(port Port) string {
