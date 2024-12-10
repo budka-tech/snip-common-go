@@ -22,17 +22,20 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	Users_Identify_FullMethodName          = "/users.Users/Identify"
 	Users_Login_FullMethodName             = "/users.Users/Login"
+	Users_Logout_FullMethodName            = "/users.Users/Logout"
 	Users_CheckCode_FullMethodName         = "/users.Users/CheckCode"
-	Users_LoginByCode_FullMethodName       = "/users.Users/LoginByCode"
-	Users_Register_FullMethodName          = "/users.Users/Register"
-	Users_HasSession_FullMethodName        = "/users.Users/HasSession"
 	Users_GetAccount_FullMethodName        = "/users.Users/GetAccount"
+	Users_GetAccountShort_FullMethodName   = "/users.Users/GetAccountShort"
+	Users_GetSessions_FullMethodName       = "/users.Users/GetSessions"
 	Users_UpdateAccountData_FullMethodName = "/users.Users/UpdateAccountData"
-	Users_UpdatePassword_FullMethodName    = "/users.Users/UpdatePassword"
-	Users_UpdatePhoto_FullMethodName       = "/users.Users/UpdatePhoto"
-	Users_AddPhone_FullMethodName          = "/users.Users/AddPhone"
-	Users_UpdatePhone_FullMethodName       = "/users.Users/UpdatePhone"
-	Users_RemovePhone_FullMethodName       = "/users.Users/RemovePhone"
+	Users_GetPhones_FullMethodName         = "/users.Users/GetPhones"
+	Users_AttachPhone_FullMethodName       = "/users.Users/AttachPhone"
+	Users_DetachPhone_FullMethodName       = "/users.Users/DetachPhone"
+	Users_SetPrimaryPhone_FullMethodName   = "/users.Users/SetPrimaryPhone"
+	Users_GetEmails_FullMethodName         = "/users.Users/GetEmails"
+	Users_AttachEmail_FullMethodName       = "/users.Users/AttachEmail"
+	Users_DetachEmail_FullMethodName       = "/users.Users/DetachEmail"
+	Users_SetPrimaryEmail_FullMethodName   = "/users.Users/SetPrimaryEmail"
 )
 
 // UsersClient is the client API for Users service.
@@ -41,17 +44,20 @@ const (
 type UsersClient interface {
 	Identify(ctx context.Context, in *IdentifyRequest, opts ...grpc.CallOption) (*IdentifyResponse, error)
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
+	Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*common.Response, error)
 	CheckCode(ctx context.Context, in *CheckCodeRequest, opts ...grpc.CallOption) (*common.Response, error)
-	LoginByCode(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
-	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*LoginResponse, error)
-	HasSession(ctx context.Context, in *HasSessionRequest, opts ...grpc.CallOption) (*common.Response, error)
 	GetAccount(ctx context.Context, in *CommonRequest, opts ...grpc.CallOption) (*Account, error)
+	GetAccountShort(ctx context.Context, in *CommonRequest, opts ...grpc.CallOption) (*Account, error)
+	GetSessions(ctx context.Context, in *CommonRequest, opts ...grpc.CallOption) (*GetSessionsResponse, error)
 	UpdateAccountData(ctx context.Context, in *UpdateAccountDataRequest, opts ...grpc.CallOption) (*common.Response, error)
-	UpdatePassword(ctx context.Context, in *UpdatePasswordRequest, opts ...grpc.CallOption) (*common.Response, error)
-	UpdatePhoto(ctx context.Context, in *UpdatePhotoRequest, opts ...grpc.CallOption) (*common.Response, error)
-	AddPhone(ctx context.Context, in *AddPhoneRequest, opts ...grpc.CallOption) (*common.Response, error)
-	UpdatePhone(ctx context.Context, in *UpdatePhotoRequest, opts ...grpc.CallOption) (*common.Response, error)
-	RemovePhone(ctx context.Context, in *RemovePhoneRequest, opts ...grpc.CallOption) (*common.Response, error)
+	GetPhones(ctx context.Context, in *CommonRequest, opts ...grpc.CallOption) (*GetPhonesResponse, error)
+	AttachPhone(ctx context.Context, in *PhoneManipulationRequest, opts ...grpc.CallOption) (*ConfirmResponse, error)
+	DetachPhone(ctx context.Context, in *PhoneManipulationRequest, opts ...grpc.CallOption) (*ConfirmResponse, error)
+	SetPrimaryPhone(ctx context.Context, in *PhoneManipulationRequest, opts ...grpc.CallOption) (*ConfirmResponse, error)
+	GetEmails(ctx context.Context, in *CommonRequest, opts ...grpc.CallOption) (*GetEmailsResponse, error)
+	AttachEmail(ctx context.Context, in *EmailManipulationRequest, opts ...grpc.CallOption) (*ConfirmResponse, error)
+	DetachEmail(ctx context.Context, in *EmailManipulationRequest, opts ...grpc.CallOption) (*ConfirmResponse, error)
+	SetPrimaryEmail(ctx context.Context, in *EmailManipulationRequest, opts ...grpc.CallOption) (*ConfirmResponse, error)
 }
 
 type usersClient struct {
@@ -82,40 +88,20 @@ func (c *usersClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.
 	return out, nil
 }
 
+func (c *usersClient) Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*common.Response, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(common.Response)
+	err := c.cc.Invoke(ctx, Users_Logout_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *usersClient) CheckCode(ctx context.Context, in *CheckCodeRequest, opts ...grpc.CallOption) (*common.Response, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(common.Response)
 	err := c.cc.Invoke(ctx, Users_CheckCode_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *usersClient) LoginByCode(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(LoginResponse)
-	err := c.cc.Invoke(ctx, Users_LoginByCode_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *usersClient) Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(LoginResponse)
-	err := c.cc.Invoke(ctx, Users_Register_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *usersClient) HasSession(ctx context.Context, in *HasSessionRequest, opts ...grpc.CallOption) (*common.Response, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(common.Response)
-	err := c.cc.Invoke(ctx, Users_HasSession_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -132,6 +118,26 @@ func (c *usersClient) GetAccount(ctx context.Context, in *CommonRequest, opts ..
 	return out, nil
 }
 
+func (c *usersClient) GetAccountShort(ctx context.Context, in *CommonRequest, opts ...grpc.CallOption) (*Account, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Account)
+	err := c.cc.Invoke(ctx, Users_GetAccountShort_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *usersClient) GetSessions(ctx context.Context, in *CommonRequest, opts ...grpc.CallOption) (*GetSessionsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetSessionsResponse)
+	err := c.cc.Invoke(ctx, Users_GetSessions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *usersClient) UpdateAccountData(ctx context.Context, in *UpdateAccountDataRequest, opts ...grpc.CallOption) (*common.Response, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(common.Response)
@@ -142,50 +148,80 @@ func (c *usersClient) UpdateAccountData(ctx context.Context, in *UpdateAccountDa
 	return out, nil
 }
 
-func (c *usersClient) UpdatePassword(ctx context.Context, in *UpdatePasswordRequest, opts ...grpc.CallOption) (*common.Response, error) {
+func (c *usersClient) GetPhones(ctx context.Context, in *CommonRequest, opts ...grpc.CallOption) (*GetPhonesResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(common.Response)
-	err := c.cc.Invoke(ctx, Users_UpdatePassword_FullMethodName, in, out, cOpts...)
+	out := new(GetPhonesResponse)
+	err := c.cc.Invoke(ctx, Users_GetPhones_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *usersClient) UpdatePhoto(ctx context.Context, in *UpdatePhotoRequest, opts ...grpc.CallOption) (*common.Response, error) {
+func (c *usersClient) AttachPhone(ctx context.Context, in *PhoneManipulationRequest, opts ...grpc.CallOption) (*ConfirmResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(common.Response)
-	err := c.cc.Invoke(ctx, Users_UpdatePhoto_FullMethodName, in, out, cOpts...)
+	out := new(ConfirmResponse)
+	err := c.cc.Invoke(ctx, Users_AttachPhone_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *usersClient) AddPhone(ctx context.Context, in *AddPhoneRequest, opts ...grpc.CallOption) (*common.Response, error) {
+func (c *usersClient) DetachPhone(ctx context.Context, in *PhoneManipulationRequest, opts ...grpc.CallOption) (*ConfirmResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(common.Response)
-	err := c.cc.Invoke(ctx, Users_AddPhone_FullMethodName, in, out, cOpts...)
+	out := new(ConfirmResponse)
+	err := c.cc.Invoke(ctx, Users_DetachPhone_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *usersClient) UpdatePhone(ctx context.Context, in *UpdatePhotoRequest, opts ...grpc.CallOption) (*common.Response, error) {
+func (c *usersClient) SetPrimaryPhone(ctx context.Context, in *PhoneManipulationRequest, opts ...grpc.CallOption) (*ConfirmResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(common.Response)
-	err := c.cc.Invoke(ctx, Users_UpdatePhone_FullMethodName, in, out, cOpts...)
+	out := new(ConfirmResponse)
+	err := c.cc.Invoke(ctx, Users_SetPrimaryPhone_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *usersClient) RemovePhone(ctx context.Context, in *RemovePhoneRequest, opts ...grpc.CallOption) (*common.Response, error) {
+func (c *usersClient) GetEmails(ctx context.Context, in *CommonRequest, opts ...grpc.CallOption) (*GetEmailsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(common.Response)
-	err := c.cc.Invoke(ctx, Users_RemovePhone_FullMethodName, in, out, cOpts...)
+	out := new(GetEmailsResponse)
+	err := c.cc.Invoke(ctx, Users_GetEmails_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *usersClient) AttachEmail(ctx context.Context, in *EmailManipulationRequest, opts ...grpc.CallOption) (*ConfirmResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ConfirmResponse)
+	err := c.cc.Invoke(ctx, Users_AttachEmail_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *usersClient) DetachEmail(ctx context.Context, in *EmailManipulationRequest, opts ...grpc.CallOption) (*ConfirmResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ConfirmResponse)
+	err := c.cc.Invoke(ctx, Users_DetachEmail_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *usersClient) SetPrimaryEmail(ctx context.Context, in *EmailManipulationRequest, opts ...grpc.CallOption) (*ConfirmResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ConfirmResponse)
+	err := c.cc.Invoke(ctx, Users_SetPrimaryEmail_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -198,17 +234,20 @@ func (c *usersClient) RemovePhone(ctx context.Context, in *RemovePhoneRequest, o
 type UsersServer interface {
 	Identify(context.Context, *IdentifyRequest) (*IdentifyResponse, error)
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
+	Logout(context.Context, *LogoutRequest) (*common.Response, error)
 	CheckCode(context.Context, *CheckCodeRequest) (*common.Response, error)
-	LoginByCode(context.Context, *LoginRequest) (*LoginResponse, error)
-	Register(context.Context, *RegisterRequest) (*LoginResponse, error)
-	HasSession(context.Context, *HasSessionRequest) (*common.Response, error)
 	GetAccount(context.Context, *CommonRequest) (*Account, error)
+	GetAccountShort(context.Context, *CommonRequest) (*Account, error)
+	GetSessions(context.Context, *CommonRequest) (*GetSessionsResponse, error)
 	UpdateAccountData(context.Context, *UpdateAccountDataRequest) (*common.Response, error)
-	UpdatePassword(context.Context, *UpdatePasswordRequest) (*common.Response, error)
-	UpdatePhoto(context.Context, *UpdatePhotoRequest) (*common.Response, error)
-	AddPhone(context.Context, *AddPhoneRequest) (*common.Response, error)
-	UpdatePhone(context.Context, *UpdatePhotoRequest) (*common.Response, error)
-	RemovePhone(context.Context, *RemovePhoneRequest) (*common.Response, error)
+	GetPhones(context.Context, *CommonRequest) (*GetPhonesResponse, error)
+	AttachPhone(context.Context, *PhoneManipulationRequest) (*ConfirmResponse, error)
+	DetachPhone(context.Context, *PhoneManipulationRequest) (*ConfirmResponse, error)
+	SetPrimaryPhone(context.Context, *PhoneManipulationRequest) (*ConfirmResponse, error)
+	GetEmails(context.Context, *CommonRequest) (*GetEmailsResponse, error)
+	AttachEmail(context.Context, *EmailManipulationRequest) (*ConfirmResponse, error)
+	DetachEmail(context.Context, *EmailManipulationRequest) (*ConfirmResponse, error)
+	SetPrimaryEmail(context.Context, *EmailManipulationRequest) (*ConfirmResponse, error)
 	mustEmbedUnimplementedUsersServer()
 }
 
@@ -225,38 +264,47 @@ func (UnimplementedUsersServer) Identify(context.Context, *IdentifyRequest) (*Id
 func (UnimplementedUsersServer) Login(context.Context, *LoginRequest) (*LoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
 }
+func (UnimplementedUsersServer) Logout(context.Context, *LogoutRequest) (*common.Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Logout not implemented")
+}
 func (UnimplementedUsersServer) CheckCode(context.Context, *CheckCodeRequest) (*common.Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CheckCode not implemented")
-}
-func (UnimplementedUsersServer) LoginByCode(context.Context, *LoginRequest) (*LoginResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method LoginByCode not implemented")
-}
-func (UnimplementedUsersServer) Register(context.Context, *RegisterRequest) (*LoginResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
-}
-func (UnimplementedUsersServer) HasSession(context.Context, *HasSessionRequest) (*common.Response, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method HasSession not implemented")
 }
 func (UnimplementedUsersServer) GetAccount(context.Context, *CommonRequest) (*Account, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAccount not implemented")
 }
+func (UnimplementedUsersServer) GetAccountShort(context.Context, *CommonRequest) (*Account, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAccountShort not implemented")
+}
+func (UnimplementedUsersServer) GetSessions(context.Context, *CommonRequest) (*GetSessionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSessions not implemented")
+}
 func (UnimplementedUsersServer) UpdateAccountData(context.Context, *UpdateAccountDataRequest) (*common.Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAccountData not implemented")
 }
-func (UnimplementedUsersServer) UpdatePassword(context.Context, *UpdatePasswordRequest) (*common.Response, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdatePassword not implemented")
+func (UnimplementedUsersServer) GetPhones(context.Context, *CommonRequest) (*GetPhonesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPhones not implemented")
 }
-func (UnimplementedUsersServer) UpdatePhoto(context.Context, *UpdatePhotoRequest) (*common.Response, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdatePhoto not implemented")
+func (UnimplementedUsersServer) AttachPhone(context.Context, *PhoneManipulationRequest) (*ConfirmResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AttachPhone not implemented")
 }
-func (UnimplementedUsersServer) AddPhone(context.Context, *AddPhoneRequest) (*common.Response, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddPhone not implemented")
+func (UnimplementedUsersServer) DetachPhone(context.Context, *PhoneManipulationRequest) (*ConfirmResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DetachPhone not implemented")
 }
-func (UnimplementedUsersServer) UpdatePhone(context.Context, *UpdatePhotoRequest) (*common.Response, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdatePhone not implemented")
+func (UnimplementedUsersServer) SetPrimaryPhone(context.Context, *PhoneManipulationRequest) (*ConfirmResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetPrimaryPhone not implemented")
 }
-func (UnimplementedUsersServer) RemovePhone(context.Context, *RemovePhoneRequest) (*common.Response, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RemovePhone not implemented")
+func (UnimplementedUsersServer) GetEmails(context.Context, *CommonRequest) (*GetEmailsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetEmails not implemented")
+}
+func (UnimplementedUsersServer) AttachEmail(context.Context, *EmailManipulationRequest) (*ConfirmResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AttachEmail not implemented")
+}
+func (UnimplementedUsersServer) DetachEmail(context.Context, *EmailManipulationRequest) (*ConfirmResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DetachEmail not implemented")
+}
+func (UnimplementedUsersServer) SetPrimaryEmail(context.Context, *EmailManipulationRequest) (*ConfirmResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetPrimaryEmail not implemented")
 }
 func (UnimplementedUsersServer) mustEmbedUnimplementedUsersServer() {}
 func (UnimplementedUsersServer) testEmbeddedByValue()               {}
@@ -315,6 +363,24 @@ func _Users_Login_Handler(srv interface{}, ctx context.Context, dec func(interfa
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Users_Logout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LogoutRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServer).Logout(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Users_Logout_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServer).Logout(ctx, req.(*LogoutRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Users_CheckCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CheckCodeRequest)
 	if err := dec(in); err != nil {
@@ -329,60 +395,6 @@ func _Users_CheckCode_Handler(srv interface{}, ctx context.Context, dec func(int
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UsersServer).CheckCode(ctx, req.(*CheckCodeRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Users_LoginByCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LoginRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UsersServer).LoginByCode(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Users_LoginByCode_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UsersServer).LoginByCode(ctx, req.(*LoginRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Users_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RegisterRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UsersServer).Register(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Users_Register_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UsersServer).Register(ctx, req.(*RegisterRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Users_HasSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(HasSessionRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UsersServer).HasSession(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Users_HasSession_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UsersServer).HasSession(ctx, req.(*HasSessionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -405,6 +417,42 @@ func _Users_GetAccount_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Users_GetAccountShort_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CommonRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServer).GetAccountShort(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Users_GetAccountShort_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServer).GetAccountShort(ctx, req.(*CommonRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Users_GetSessions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CommonRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServer).GetSessions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Users_GetSessions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServer).GetSessions(ctx, req.(*CommonRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Users_UpdateAccountData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateAccountDataRequest)
 	if err := dec(in); err != nil {
@@ -423,92 +471,146 @@ func _Users_UpdateAccountData_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Users_UpdatePassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdatePasswordRequest)
+func _Users_GetPhones_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CommonRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UsersServer).UpdatePassword(ctx, in)
+		return srv.(UsersServer).GetPhones(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Users_UpdatePassword_FullMethodName,
+		FullMethod: Users_GetPhones_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UsersServer).UpdatePassword(ctx, req.(*UpdatePasswordRequest))
+		return srv.(UsersServer).GetPhones(ctx, req.(*CommonRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Users_UpdatePhoto_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdatePhotoRequest)
+func _Users_AttachPhone_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PhoneManipulationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UsersServer).UpdatePhoto(ctx, in)
+		return srv.(UsersServer).AttachPhone(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Users_UpdatePhoto_FullMethodName,
+		FullMethod: Users_AttachPhone_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UsersServer).UpdatePhoto(ctx, req.(*UpdatePhotoRequest))
+		return srv.(UsersServer).AttachPhone(ctx, req.(*PhoneManipulationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Users_AddPhone_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddPhoneRequest)
+func _Users_DetachPhone_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PhoneManipulationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UsersServer).AddPhone(ctx, in)
+		return srv.(UsersServer).DetachPhone(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Users_AddPhone_FullMethodName,
+		FullMethod: Users_DetachPhone_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UsersServer).AddPhone(ctx, req.(*AddPhoneRequest))
+		return srv.(UsersServer).DetachPhone(ctx, req.(*PhoneManipulationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Users_UpdatePhone_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdatePhotoRequest)
+func _Users_SetPrimaryPhone_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PhoneManipulationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UsersServer).UpdatePhone(ctx, in)
+		return srv.(UsersServer).SetPrimaryPhone(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Users_UpdatePhone_FullMethodName,
+		FullMethod: Users_SetPrimaryPhone_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UsersServer).UpdatePhone(ctx, req.(*UpdatePhotoRequest))
+		return srv.(UsersServer).SetPrimaryPhone(ctx, req.(*PhoneManipulationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Users_RemovePhone_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RemovePhoneRequest)
+func _Users_GetEmails_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CommonRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UsersServer).RemovePhone(ctx, in)
+		return srv.(UsersServer).GetEmails(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Users_RemovePhone_FullMethodName,
+		FullMethod: Users_GetEmails_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UsersServer).RemovePhone(ctx, req.(*RemovePhoneRequest))
+		return srv.(UsersServer).GetEmails(ctx, req.(*CommonRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Users_AttachEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmailManipulationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServer).AttachEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Users_AttachEmail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServer).AttachEmail(ctx, req.(*EmailManipulationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Users_DetachEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmailManipulationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServer).DetachEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Users_DetachEmail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServer).DetachEmail(ctx, req.(*EmailManipulationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Users_SetPrimaryEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmailManipulationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServer).SetPrimaryEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Users_SetPrimaryEmail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServer).SetPrimaryEmail(ctx, req.(*EmailManipulationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -529,48 +631,60 @@ var Users_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Users_Login_Handler,
 		},
 		{
+			MethodName: "Logout",
+			Handler:    _Users_Logout_Handler,
+		},
+		{
 			MethodName: "CheckCode",
 			Handler:    _Users_CheckCode_Handler,
-		},
-		{
-			MethodName: "LoginByCode",
-			Handler:    _Users_LoginByCode_Handler,
-		},
-		{
-			MethodName: "Register",
-			Handler:    _Users_Register_Handler,
-		},
-		{
-			MethodName: "HasSession",
-			Handler:    _Users_HasSession_Handler,
 		},
 		{
 			MethodName: "GetAccount",
 			Handler:    _Users_GetAccount_Handler,
 		},
 		{
+			MethodName: "GetAccountShort",
+			Handler:    _Users_GetAccountShort_Handler,
+		},
+		{
+			MethodName: "GetSessions",
+			Handler:    _Users_GetSessions_Handler,
+		},
+		{
 			MethodName: "UpdateAccountData",
 			Handler:    _Users_UpdateAccountData_Handler,
 		},
 		{
-			MethodName: "UpdatePassword",
-			Handler:    _Users_UpdatePassword_Handler,
+			MethodName: "GetPhones",
+			Handler:    _Users_GetPhones_Handler,
 		},
 		{
-			MethodName: "UpdatePhoto",
-			Handler:    _Users_UpdatePhoto_Handler,
+			MethodName: "AttachPhone",
+			Handler:    _Users_AttachPhone_Handler,
 		},
 		{
-			MethodName: "AddPhone",
-			Handler:    _Users_AddPhone_Handler,
+			MethodName: "DetachPhone",
+			Handler:    _Users_DetachPhone_Handler,
 		},
 		{
-			MethodName: "UpdatePhone",
-			Handler:    _Users_UpdatePhone_Handler,
+			MethodName: "SetPrimaryPhone",
+			Handler:    _Users_SetPrimaryPhone_Handler,
 		},
 		{
-			MethodName: "RemovePhone",
-			Handler:    _Users_RemovePhone_Handler,
+			MethodName: "GetEmails",
+			Handler:    _Users_GetEmails_Handler,
+		},
+		{
+			MethodName: "AttachEmail",
+			Handler:    _Users_AttachEmail_Handler,
+		},
+		{
+			MethodName: "DetachEmail",
+			Handler:    _Users_DetachEmail_Handler,
+		},
+		{
+			MethodName: "SetPrimaryEmail",
+			Handler:    _Users_SetPrimaryEmail_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
