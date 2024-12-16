@@ -1,3 +1,5 @@
+github.com/budka-tech/envo v0.0.2 h1:FIFOZbL4L2WLhgARhNNpRD/Ro5/5uy1K/aGPzExI5lk=
+github.com/budka-tech/envo v0.0.2/go.mod h1:HzYsjldl0FiJrr0FlbeHV8s6HGPQnG+CLOhtBd1kZtU=
 github.com/google/go-cmp v0.6.0 h1:ofyhxvXcZhMsU5ulbFiLKl/XBFqE1GSq7atu8tAmTRI=
 github.com/google/go-cmp v0.6.0/go.mod h1:17dUlkBOakJ0+DkrSSNjCkIjxS6bF9zb3elmeNGIjoY=
 golang.org/x/net v0.26.0 h1:soB7SVo0PWrY4vPW/+ay0jKDNScG2X9wFeYlXIvJsOQ=
