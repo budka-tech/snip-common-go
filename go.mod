@@ -7,6 +7,7 @@ toolchain go1.23.3
 require (
 	github.com/budka-tech/envo v0.0.2
 	github.com/budka-tech/logit-go v0.1.7
+	github.com/redis/go-redis/v9 v9.7.0
 	google.golang.org/grpc v1.66.2
 	google.golang.org/protobuf v1.34.2
 )
@@ -14,6 +15,8 @@ require (
 require (
 	github.com/BurntSushi/toml v1.4.0 // indirect
 	github.com/budka-tech/configo v0.1.4 // indirect
+	github.com/cespare/xxhash/v2 v2.3.0 // indirect
+	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/getsentry/sentry-go v0.29.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/ilyakaznacheev/cleanenv v1.5.0 // indirect
