@@ -21,6 +21,7 @@ type ServiceName string
 
 const (
 	ServiceUsers  ServiceName = "snip-users-service"
+	ServiceRedis              = "snip-redis-service"
 	ServiceGsm                = "snip-gsm-service"
 	ServicePush               = "snip-push-service"
 	ServiceAssist             = "snip-assist-service"
