@@ -8,8 +8,8 @@ import (
 type Port = uint16
 
 const (
-	Redis           = 6379
-	UsersGrpc  Port = 10100
+	Redis      Port = 6379
+	UsersGrpc       = 10100
 	GsmGrpc         = 10200
 	GsmHttp         = 10201
 	PushGrpc        = 10300
@@ -30,6 +30,7 @@ const (
 
 var m = map[ServiceName]Port{
 	ServiceUsers:  UsersGrpc,
+	ServiceRedis:  Redis,
 	ServiceGsm:    GsmGrpc,
 	ServicePush:   PushGrpc,
 	ServiceAssist: AssistGrpc,
