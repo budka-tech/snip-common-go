@@ -15,7 +15,7 @@ type GClient[T any] struct {
 	name          string
 	serviceName   port.ServiceName
 	listener      net.Listener
-	client        T
+	Cli           T
 	conn          *grpc.ClientConn
 	clientFactory func(*grpc.ClientConn) T
 	dialOptions   []grpc.DialOption
@@ -64,7 +64,7 @@ func (n *GClient[T]) Init(ctx context.Context) error {
 			}
 
 			n.conn = conn
-			n.client = n.clientFactory(conn)
+			n.Cli = n.clientFactory(conn)
 
 			n.logger.Infof(ctx, "Успешное подключение к сервису %s по адресу %s", n.name, host)
 
